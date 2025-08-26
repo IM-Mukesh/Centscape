@@ -20,16 +20,13 @@
   "dependencies": {
     "cheerio": "^1.1.2",
     "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
-    "fastify": "^5.5.0",
-    "node-fetch": "^2.6.7"
+    "express-rate-limit": "^8.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/express-rate-limit": "^5.1.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.3.0",
-    "@types/node-fetch": "^2.6.13",
     "@types/supertest": "^6.0.3",
     "jest": "^30.0.5",
     "nodemon": "^3.1.10",
