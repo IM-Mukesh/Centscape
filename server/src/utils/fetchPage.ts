@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 export async function fetchPage(
   url: string,
   timeoutMs = 5000
