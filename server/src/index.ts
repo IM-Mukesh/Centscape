@@ -1,4 +1,3 @@
-// src/index.ts
 import express from "express";
 import bodyParser from "body-parser";
 import previewRoute from "./routes/preview";
@@ -16,10 +15,10 @@ const previewLimiter = rateLimit({
   message: { error: "Rate limit exceeded" },
 });
 
-app.use("/api/preview", previewLimiter); // apply limiter to only preview route
+app.use("/api/preview", previewLimiter);
 app.use("/api", previewRoute);
 
-// Only start listening when run directly (keeps tests from auto-listening)
+// ✅ Local development: start server
 if (require.main === module) {
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
@@ -27,4 +26,5 @@ if (require.main === module) {
   });
 }
 
+// ✅ Export for Vercel (serverless function handler)
 export default app;
