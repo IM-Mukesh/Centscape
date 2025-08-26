@@ -16,6 +16,9 @@ const previewLimiter = rateLimit({
 });
 
 app.use("/api/preview", previewLimiter);
+app.get("/health", (req, res) => {
+  res.json({ message: "working everything fine" });
+});
 app.use("/api", previewRoute);
 
 // ✅ Local development: start server
