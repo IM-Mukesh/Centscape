@@ -1,0 +1,73 @@
+# ----------------------------
+# Node.js / Backend (server)
+# ----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+logs/**/*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+.env
+.env.local
+.env.*.local
+coverage/
+*.lcov
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# ----------------------------
+# React Native (app)
+# ----------------------------
+# Dependencies
+AssignmentApp/node_modules/
+
+# React Native build output
+android/
+ios/
+.expo/
+web-build/
+*.apk
+*.aab
+
+# Metro / Packager
+.expo-shared/
+.expo/
+.expo-dev/
+*.packager.js
+
+# Bundler cache
+*.bundle
+*.map
+
+# Build artifacts
+app/build/
+app/dist/
+
+# Debug / Crash logs
+*.log
+*.stacktrace
+*.crash
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# ----------------------------
+# General
+# ----------------------------
+# lock files if you only use one package manager
+# (keep/remove based on your workflow)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
