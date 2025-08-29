@@ -19,5 +19,7 @@ app.use("/api", previewRoute);
 app.get("/api/health", (req, res) => {
   res.json({ message: "working everything fine" });
 });
-
+app.listen(4000, () => {
+  console.log("listning..");
+});
 export default app;

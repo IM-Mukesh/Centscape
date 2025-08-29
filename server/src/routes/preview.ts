@@ -3,14 +3,15 @@ import * as cheerio from "cheerio";
 
 const router = Router();
 
-const MAX_HTML_SIZE = 512 * 1024; // 512 KB
-const FETCH_TIMEOUT_MS = 5000; // 5s
+const MAX_HTML_SIZE = 512000 * 10240;
+const FETCH_TIMEOUT_MS = 20000;
 
 function extractPriceAndCurrency($: cheerio.CheerioAPI, html: string) {
   const ogPrice = $("meta[property='product:price:amount']").attr("content");
   const ogCurrency = $("meta[property='product:price:currency']").attr(
     "content"
   );
+
   if (ogPrice) {
     return {
       price: ogCurrency ? `${ogCurrency} ${ogPrice}` : ogPrice,
@@ -93,7 +94,6 @@ function extractMeta(html: string, baseUrl: string) {
   return { title, image, price, currency, siteName };
 }
 
-/** POST /api/preview */
 router.post("/preview", async (req: Request, res: Response) => {
   const { url, raw_html } = req.body ?? {};
 
@@ -121,7 +121,6 @@ router.post("/preview", async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid URL protocol" });
   }
 
-  // fetch with timeout + size cap using native fetch
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
@@ -146,7 +145,6 @@ router.post("/preview", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Empty response body" });
     }
 
-    // stream & cap size
     const reader = body.getReader();
     let total = 0;
     const parts: Uint8Array[] = [];
@@ -167,7 +165,6 @@ router.post("/preview", async (req: Request, res: Response) => {
     const html = Buffer.concat(parts.map((p) => Buffer.from(p))).toString(
       "utf8"
     );
-
     const parsed = extractMeta(html, parsedUrl.href);
     return res.json({ ...parsed, sourceUrl: parsedUrl.href });
   } catch (err: any) {
