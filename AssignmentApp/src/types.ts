@@ -1,4 +1,3 @@
-// src/types.ts
 export type WishlistItem = {
   id: string;
   title: string;
@@ -8,5 +7,5 @@ export type WishlistItem = {
   siteName: string | null;
   sourceUrl: string | null;
   normalizedUrl: string | null;
-  createdAt: string; // ISO date
+  createdAt: string;
 };

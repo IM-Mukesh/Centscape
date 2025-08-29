@@ -1,13 +1,7 @@
-// src/utils/url.ts
-/**
- * Utility functions for URL parsing and cleanup
- */
-
 export function normalizeUrl(raw: string): string {
   try {
     const url = new URL(raw);
 
-    // Clean up tracking parameters (example: remove utm params)
     const params = url.searchParams;
     const trackingParams = [
       'utm_source',
@@ -23,7 +17,6 @@ export function normalizeUrl(raw: string): string {
       }
     });
 
-    // Rebuild the URL
     return url.toString();
   } catch (err) {
     console.warn('Invalid URL passed to normalizeUrl:', raw);

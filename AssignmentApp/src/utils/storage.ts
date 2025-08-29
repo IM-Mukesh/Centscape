@@ -1,4 +1,3 @@
-// src/utils/storage.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WishlistItem } from '../types';
 import { normalizeUrl } from './url';
@@ -24,12 +23,10 @@ async function write(db: DBShapeV2) {
 export async function initAndMigrate(): Promise<void> {
   const db = await readRaw();
   if (!db) {
-    // nothing — create v2 empty
     await write({ version: 2, items: [] });
     return;
   }
   if ((db as any).version === 2) return;
-  // migrate v1 -> v2
   if ((db as any).version === 1) {
     const v1 = db as DBShapeV1;
     const itemsV2: WishlistItem[] = v1.items.map((it: any) => {
@@ -42,7 +39,6 @@ export async function initAndMigrate(): Promise<void> {
     });
     await write({ version: 2, items: itemsV2 });
   } else {
-    // unknown shape: reset
     await write({ version: 2, items: [] });
   }
 }
@@ -57,7 +53,6 @@ export async function saveItem(
 ): Promise<WishlistItem | null> {
   const db = (await readRaw()) as DBShapeV2 | null;
   const list: WishlistItem[] = db?.items ?? [];
-  // compute id + createdAt + normalizedUrl
   const id =
     item.id ?? `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const createdAt = new Date().toISOString();
@@ -65,10 +60,9 @@ export async function saveItem(
     item.normalizedUrl ??
     (item.sourceUrl ? normalizeUrl(item.sourceUrl) : null);
 
-  // dedupe by normalizedUrl if available
   if (normalizedUrl) {
     const exists = list.find(x => x.normalizedUrl === normalizedUrl);
-    if (exists) return null; // already exists -> signal to caller
+    if (exists) return null;
   }
 
   const toSave: WishlistItem = {

@@ -1,4 +1,3 @@
-// src/screens/AddScreen.tsx
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -29,7 +28,6 @@ export default function AddScreen({ route, navigation }: Props) {
   useEffect(() => {
     if (incomingUrl) {
       setUrl(String(incomingUrl));
-      // auto-fetch preview for deep link
       setTimeout(() => {
         fetchPreview(incomingUrl);
       }, 300);
@@ -70,7 +68,6 @@ export default function AddScreen({ route, navigation }: Props) {
       Alert.alert('No preview', 'Fetch a preview before adding');
       return;
     }
-    // save item
     const saved = await saveItem({
       title: preview.title ?? 'Untitled',
       image: preview.image ?? null,
@@ -78,7 +75,7 @@ export default function AddScreen({ route, navigation }: Props) {
       currency: preview.currency ?? null,
       siteName: preview.siteName ?? null,
       sourceUrl: preview.sourceUrl ?? url,
-      normalizedUrl: preview.sourceUrl ? null : null, // storage will compute normalized if sourceUrl exists
+      normalizedUrl: preview.sourceUrl ? null : null,
     }).catch(e => {
       console.warn(e);
       return null;
@@ -88,8 +85,6 @@ export default function AddScreen({ route, navigation }: Props) {
       Alert.alert('Duplicate', 'This item already exists in your wishlist.');
       return;
     }
-
-    // success
     navigation.navigate('Wishlist');
   }
 
@@ -103,15 +98,28 @@ export default function AddScreen({ route, navigation }: Props) {
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.label}>Product URL</Text>
-        <TextInput
-          value={url}
-          onChangeText={setUrl}
-          placeholder="https://example.com/product/..."
-          style={styles.input}
-          autoCapitalize="none"
-          keyboardType="url"
-          accessibilityLabel="Product URL input"
-        />
+
+        <View style={styles.inputRow}>
+          <TextInput
+            value={url}
+            onChangeText={setUrl}
+            placeholder="https://example.com/product/..."
+            placeholderTextColor={'#CFCFCF'}
+            style={styles.input}
+            autoCapitalize="none"
+            keyboardType="url"
+            accessibilityLabel="Product URL input"
+          />
+          {url.length > 0 && (
+            <TouchableOpacity
+              onPress={() => setUrl('')}
+              style={styles.clearButton}
+              accessibilityLabel="Clear input"
+            >
+              <Text style={styles.clearText}>×</Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         <TouchableOpacity
           style={styles.button}
@@ -165,13 +173,29 @@ export default function AddScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: '#fff', flexGrow: 1 },
   label: { fontWeight: '600', marginBottom: 8 },
-  input: {
+
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#ddd',
-    padding: 10,
     borderRadius: 8,
     marginBottom: 12,
+    paddingHorizontal: 8,
   },
+  input: {
+    flex: 1,
+    padding: 10,
+  },
+  clearButton: {
+    padding: 6,
+  },
+  clearText: {
+    fontSize: 18,
+    color: '#888',
+    fontWeight: 'bold',
+  },
+
   button: {
     backgroundColor: '#0a84ff',
     padding: 12,

@@ -1,4 +1,3 @@
-// src/App.tsx
 import 'react-native-url-polyfill/auto';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,7 +18,6 @@ export default function App() {
   useEffect(() => {
     const handleUrl = (event: { url: string }) => {
       const link = event.url;
-      // handle link if needed
     };
 
     const subscription = Linking.addEventListener('url', handleUrl);
@@ -29,16 +27,13 @@ export default function App() {
     };
   }, []);
 
-  // Simple linking config so OS-level links open the Add screen automatically
   const linking = {
     prefixes: ['centscape://'],
     config: {
       screens: {
         Add: {
           path: 'add',
-          parse: {
-            // we will parse 'url' query param manually in AddScreen
-          },
+          parse: {},
         },
       },
     },

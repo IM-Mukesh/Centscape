@@ -1,4 +1,3 @@
-// src/screens/WishlistScreen.tsx
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
@@ -37,7 +36,6 @@ export default function WishlistScreen({ navigation }: Props) {
   }, []);
 
   useEffect(() => {
-    // load on mount, and whenever screen is focused (after adding)
     load();
   }, [isFocused, load]);
 
